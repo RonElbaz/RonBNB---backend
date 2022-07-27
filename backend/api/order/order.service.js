@@ -27,16 +27,17 @@ async function add(order) {
   }
 }
 
-// async function update(order) {
-//   try {
-//     const collection = await dbService.getCollection("order")
-//     var newOrder = await collection.insert(order)
-//     console.log(newOrder);
-//   } catch (err) {
-//     logger.error("cannot update order", err)
-//     throw err
-//   }
-// }
+async function update(order) {
+  try {
+    const collection = await dbService.getCollection("order")
+    const criteria = { _id: ObjectId(order._id) }
+    var newOrder = await collection.findOneAndUpdate(criteria,{$set: { "status": order.status },})
+    return newOrder.value
+  } catch (err) {
+    logger.error("cannot update order", err)
+    throw err
+  }
+}
 
 function _buildCriteria(filterBy) {
   return {}
