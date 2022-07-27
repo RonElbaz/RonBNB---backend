@@ -16,7 +16,7 @@ async function getOrders(req, res) {
 
 async function updateOrder(req, res) {
     try {
-        const orders = await orderService.update(req.query)
+        const orders = await orderService.update(req.body)
         res.send(orders)
     } catch (err) {
         logger.error('Cannot get orders', err)
