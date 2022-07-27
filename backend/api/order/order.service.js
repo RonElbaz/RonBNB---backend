@@ -49,5 +49,5 @@ function _buildCriteria(filterBy) {
 module.exports = {
   query,
   add,
-  // update,
+  update,
 }
