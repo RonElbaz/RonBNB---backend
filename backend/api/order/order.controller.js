@@ -30,7 +30,7 @@ async function addOrder(req, res) {
  
     try {
         var order = req.body
-        console.log(order);
+        // console.log(order);
         // order.byUserId = loggedinUser._id
         order = await orderService.add(order)
 
