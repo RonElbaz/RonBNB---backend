@@ -33,6 +33,7 @@ const {setupSocketAPI} = require('./services/socket.service')
 // app.use('/api/user', userRoutes)
 app.use('/api/stay', stayRoutes)
 app.use('/api/order', orderRoutes)
+app.use('/api/auth', authRoutes)
 setupSocketAPI(http)
 
 // Make every server-side-route to match the index.html
