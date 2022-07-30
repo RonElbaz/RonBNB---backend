@@ -1,7 +1,7 @@
 const logger = require('../../services/logger.service')
 // const userService = require('../user/user.service')
-// const authService = require('../auth/auth.service')
-// const socketService = require('../../services/socket.service')
+const authService = require('../auth/auth.service')
+const socketService = require('../../services/socket.service')
 const orderService = require('./order.service')
 
 async function getOrders(req, res) {
@@ -16,7 +16,10 @@ async function getOrders(req, res) {
 
 async function updateOrder(req, res) {
     try {
+        // console.log(req.body);
         const orders = await orderService.update(req.body)
+        // console.log(orders);
+        socketService.broadcast({type: 'order-updated', data: orders, userId: orders.host._id})
         res.send(orders)
     } catch (err) {
         logger.error('Cannot get orders', err)
@@ -26,7 +29,7 @@ async function updateOrder(req, res) {
 
 async function addOrder(req, res) {
 
-    // var loggedinUser = authService.validateToken(req.cookies.loginToken)
+    var loggedinUser = authService.validateToken(req.cookies.loginToken)
  
     try {
         var order = req.body
@@ -50,8 +53,7 @@ async function addOrder(req, res) {
         // res.cookie('loginToken', loginToken)
 
 
-        // socketService.broadcast({type: 'order-added', data: order, userId: loggedinUser._id.toString()})
-        // socketService.emitToUser({type: 'order-about-you', data: order, userId: order.aboutUserId})
+        socketService.broadcast({type: 'order-added', data: order, userId: loggedinUser._id.toString()})
         
         // const fullUser = await userService.getById(loggedinUser._id)
         // socketService.emitTo({type: 'user-updated', data: fullUser, label: fullUser._id})
